@@ -4,14 +4,14 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { ResultDto } from '../dto/result.dto';
 
-import { User } from './user.entity';
+import { Users } from './users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    @InjectRepository(Users)
+    private userRepository: Repository<Users>,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<ResultDto> {
@@ -36,5 +36,9 @@ export class UserService {
         message: 'Error creating user',
       };
     }
+  }
+
+  async findByEmail(email: string): Promise<Users | null> {
+    return this.userRepository.findOne({ where: { email: email } });
   }
 }
