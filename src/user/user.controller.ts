@@ -1,8 +1,10 @@
 import { Controller, Post, Body, HttpStatus, Res } from '@nestjs/common';
+import type { Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ResultDto } from '../dto/result.dto';
 
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -15,7 +17,7 @@ export class UserController {
     if (result.status) {
       res.status(HttpStatus.CREATED).json(result);
     } else {
-      res.status(HttpStatus.BAD_REQUEST).json(result);
+      res.status(HttpStatus.BAD_REQUEST).json(result.message);
     }
   }
 }
